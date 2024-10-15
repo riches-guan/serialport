@@ -1,0 +1,75 @@
+{
+    "serial": {
+        "status": {
+            "waiting": "警告",
+            "timeout": "延时",
+            "stopped": "停止"
+        },
+        "label": {
+            "serialport": "串口端口",
+            "settings": "设置",
+            "baudrate": "波特率",
+            "databits": "数据位",
+            "parity": "校验",
+            "stopbits": "停止位",
+            "input": "输入",
+            "split": "分割输入",
+            "deliver": "传送",
+            "output": "输出",
+            "request": "请求",
+            "responsetimeout": "默认响应超时",
+            "ms": "ms",
+            "serial": "串口",
+            "none": "无",
+            "start": "可选地等待开始字符",
+            "startor": ", 然后"
+        },
+        "placeholder": {
+            "serialport": "例如: /dev/ttyUSB0/"
+        },
+        "parity": {
+            "none": "无",
+            "even": "偶",
+            "mark": "标志",
+            "odd": "奇",
+            "space": "空格"
+        },
+        "linestates": {
+            "none": "自动",
+            "high": "高",
+            "low": "低"
+        },
+        "split": {
+            "character": "在字符中",
+            "timeout": "在超时后",
+            "silent": "在绝拒绝之后",
+            "lengths": "固定长度"
+        },
+        "output": {
+            "ascii": "ASCII 字符串",
+            "binary": "二进制缓冲区"
+        },
+        "addsplit": "在输出消息中添加字符",
+        "tip": {
+            "responsetimeout": "提示：通过设置msg.timeout可以覆盖默认响应超时。",
+            "split": "提示：“Split on”字符用于将输入拆分为单独的消息。可以接受字符（$）、转义码（\\n）或十六进制码（0x03）。",
+            "silent": "提示：当任何字符到达时，在线静默模式超时将重新启动（即字节间超时）。",
+            "timeout": "提示：在超时模式下，超时从第一个字符到达开始。",
+            "count": "提示：在计数模式下，msg.count可以覆盖配置的计数，只要它小于配置的值。",
+            "waitfor": "提示：可选。留空以接收所有数据。可以接受字符（$）、转义码（\\n）或十六进制码（0x02）。" ,
+            "addchar": "提示：此字符将添加到发送到串行端口的每条消息中。通常为\\r或\\n。"
+        },
+        "onopen": "串口端口 __port__ opened at __baud__ baud __config__",
+        "errors": {
+            "missing-conf": "缺少串口配置",
+            "serial-port": "串口端口",
+            "error": "串口端口 __port__ error: __error__",
+            "unexpected-close": "串口端口 __port__ closed unexpectedly",
+            "disconnected": "串口端口 __port__ disconnected",
+            "closed": "串口端口 __port__ closed",
+            "list": "未能列出端口。请手动输入。",
+            "badbaudrate": "波特率无效"
+        },
+        "stopped": "__port__ stopped"
+    }
+}

@@ -1,0 +1,129 @@
+
+<script type="text/html" data-help-name="serial in">
+    <p>从本地串口端口读取数据。</p>
+    <h3>输出</h3>
+    <dl class="message-properties">
+        <dt>payload <span class="property-type">string | buffer</span></dt>
+        <dd>通过串口端口接收数据</dd>
+        <dt>port <span class="property-type">string</span></dt>
+        <dd>串口端口的名称</dd>
+    </dl>
+    <p>该节点可以
+        <ul>
+            <li>等待“拆分”字符（默认\n）。
+                还接受转义快捷方式（例如\n）或十六进制表示法（0x0d）。</li>
+            <li>等待从接收到的第一个字符开始以毫秒为单位的超时。</li>
+            <li>等待收到最后一个字符后的静默时间（毫秒）。</li>
+            <li>等待填充固定大小的缓冲区。</li>
+        </ul>
+    </p>
+    <p>然后，它以UTF-8 ASCII字符串或二进制缓冲区对象的形式输出<code>msg.payload</code>。</p>
+    <p><code>msg.port</code>设置为所选端口的名称。</p>
+    <p>如果没有指定分割字符或超时或缓冲区大小为0，
+        然后发送单个字符流-
+        再次作为ASCII字符或大小为1的二进制缓冲区。</p>
+</script>
+
+<script type="text/html" data-help-name="serial out">
+    <p>通过本地串口端口发送数据。</p>
+    <h3>输入</h3>
+    <dl class="message-properties">
+        <dt>payload <span class="property-type">string | buffer</span></dt>
+        <dd>通过串口端口发送的数据</dd>
+        <dt class="optional">baudrate <span class="property-type">string</span></dt>
+        <dd>串口端口的波特率（可选）</dd>
+    </dl>
+    <p>仅发送<code>msg.payload</code>。</p>
+    <p>可选，可以使用<code>msg.baudrate</code>更改波特率。</p>
+    <p>可选，用于分割输入的新行字符可以附加到发送到串口端口的每条消息上。</p>
+    <p>二进制有效载荷可以通过使用缓冲区对象发送。</p>
+</script>
+
+<script type="text/html" data-help-name="serial request">
+    <p>提供与请求/响应串口端口的连接。</p>
+    <p>此节点表现为<code>串口输入</code>和<code>串口输出</code>节点的紧密耦合组合，与之共享配置。</p>
+    <p>在<code>msg.payload</code>中发送请求消息，就像在<code>串口输出</code>节点中一样。
+        消息将按照严格的FIFO（先进先出）队列转发到串口端口，在发送下一个请求之前等待单个响应。
+        一旦收到响应（与<code>串口输入</code>节点逻辑相同），或者发生超时后，就会向输出端发送一条消息（见下面的输出），其中<code>msg.payload</code>包含收到的响应（如果超时则丢失），所有其他属性都会保留。</p>
+    <p>为了与<code>串口输入</code>节点保持一致，将<code>msg.port</code>设置为所选端口的名称。</p>
+    <h3>输入</h3>
+    <ul>
+        <li><code>msg.timeout</code>是超时时间（以毫秒为单位），在此时间之后，传入消息将传播到输出，<code>msg.status</code>设置为<code>“ERR_timeout”</code>>并且缺少有效载荷。
+            如果不存在，默认值为10000（10秒）。</li>
+        <li>如果设置了<code>msg.count</code>，只要它小于配置的字符数，它就会覆盖配置的字符数来。</li>
+        <li><code>msg.waitfor</code>必须是单个字符、转义码或十六进制码。如果设置，节点将等待，直到它与流中的该字符匹配，然后开始输出。</li>
+        <li>可选，可以使用<code>msg.baudrate</code>更改波特率</li>
+    </ul>
+    <h3>输出</h3>
+    <ul>
+        <li><code>msg.payload</code>是响应。如果没有响应，则删除此属性。</li>
+        <li>如果收到响应，<code>msg.status</code>为<code>“OK”</code>，如果发生超时，<code>为“ERR_TIMEOUT”</code>。</li>
+        <li>来自输入的任何其他属性都将被保留。</li>
+    </ul>
+</script>
+
+<script type="text/html" data-help-name="serial-port">
+    <p>本地串口端口的配置选项。</p>
+    <p>搜索按钮应返回可供选择的可用串行端口列表，或者如果已知，您可以键入位置。</p>
+    <p>DTR、RTS、CTS和DSR开关可用于将相应的流量控制引脚永久拉高或拉低，例如，以便通过这些引脚为设备供电。</p>
+    <p>节点可以选择等待，直到它匹配预定义的字符。</p>
+    <p>串口数据接收可以
+        <ul>
+            <li>等待“拆分”字符（默认\n）。还接受转义快捷方式（例如\n）或十六进制表示法（0x0d）。</li>
+            <li>等待从接收到的第一个字符开始以毫秒为单位的超时。</li>
+            <li>等待收到最后一个字符后的静默时间（毫秒）。</li>
+            <li>等待填充固定大小的缓冲区。</li>
+        </ul>
+    </p>
+    <p>然后，它将接收到的数据输出为UTF-8 ASCII字符串或二进制缓冲区对象。</p>
+    <p>如果没有指定拆分字符，或者超时或缓冲区大小为0，则发送单个字符流-
+        再次作为ASCII字符或大小为1的二进制缓冲区。</p>
+    <p>可选，用于分割输入的新行字符可以附加到发送到串行端口的每条消息上。</p>
+</script>
+
+<script type="text/html" data-help-name="serial control">
+    <p>停止、启动串口通信并更改串口端口配置。</p>
+
+    <p>此节点提供以下功能:</p>
+    <ul>
+        <li>停止通信并释放串口端口。</li>
+        <li>重新打开端口并重新启动通信。</li>
+        <li>动态更改串口端口和配置。</li>
+        <li>查询串口端口配置。</li>
+    </ul>
+
+    <h3>输入</h3>
+        <p>为了控制通信，发送中必须包含<b>ms.payload</b>。</p>
+        <pre>
+{
+    "serialport": "/dev/ttyUSB0",
+    "serialbaud": 115200,
+    "databits": 8,
+    "parity": "none",
+    "stopbits": 1,
+    "enabled": true
+}
+        </pre>
+
+        <p>以下可选参数仅在存在时才会更改配置。</p>
+        <p>可以传递它们的任意组合来更改/控制串口通信</p>
+        <ul>
+            <li> 串口端口 </li>
+            <li> 串口波特率 </li>
+            <li> 数据位 </li>
+            <li> 校验 </li>
+            <li> 停止位 </li>
+            <li> dtr </li>
+            <li> rts </li>
+            <li> cts </li>
+            <li> dsr </li>
+            <li> 启用 </li>
+        </ul>
+        <p>如果启用了<code>启用</code>的属性不存在，它将默认为<code>true</code>。</p>
+        <p>
+            <code>{"enabled":true}</code> or <code>{"enabled":false}</code> 将启动或停止通信。</p>
+            <p>如果<code>启用</code>与其他参数一起传递，配置将被更改，端口将启动或保持停止状态，根据其值准备稍后启动。</p>
+
+    <h3>输出</h3>
+    <p><code>msg.payload</code>包含串口端口配置。</p>
+</script>
